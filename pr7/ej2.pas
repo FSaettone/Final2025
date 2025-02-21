@@ -137,20 +137,24 @@ end;
 	
 procedure incisoC(var l:lista);
 var 
-	cod:integer; seEncontro:boolean; ant:lista;
+	cod:integer;act,ant:lista;
 begin
-	seEncontro:=false;
-	readln(cod);
-	while(l<>nil) or (seEncontro=false) do begin
-		ant:=l;
-		if(l^.c.cod=cod) then begin
-			ant^.sig:=l^.sig;
-			seEncontro:=true;
-			dispose(l);     // todo el inciso C es a revisar ya que lo hice de 0 pensando como tendria que ser.
-		end;
-		if(seEncontro=false) then
-			l:=l^.sig;
+	readln(cod); 
+	ant:=nil;
+	act:=l;
+	while(l<>nil) and (l^.c.cod<>cod) do begin
+		ant:=act;
+		act:=act^.sig;
 	end;
+	if(act<>nil) then
+		if(act=l) then begin
+			l:=l^.sig;
+			dispose(act);
+		end
+		else begin
+			ant^.sig:=act^.sig;
+			dispose(act);
+		end;
 end;
 
 
